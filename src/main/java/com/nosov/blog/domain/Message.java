@@ -13,6 +13,7 @@ public class Message {
 
     private String text;
     private String tag;
+    private Role author;
 
     public Message() {
     }
