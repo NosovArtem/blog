@@ -2,7 +2,6 @@ package com.nosov.blog.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -23,7 +22,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 
