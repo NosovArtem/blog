@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -47,16 +48,19 @@ public class MainController {
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         Message message = new Message(text, tag, user);
-        if (file != null) {
+        if (Objects.nonNull(file) && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
-            String resultFileName = UUID.randomUUID().toString() + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
+            String uuidFileName = UUID.randomUUID().toString();
+            String resultFileName = uploadPath + "/" + uuidFileName + "." + file.getOriginalFilename();
+            file.transferTo(new File(resultFileName));
             message.setFilename(resultFileName);
         }
-        messageRepo.save(message);
+        if (text != null && !text.isEmpty()) {
+            messageRepo.save(message);
+        }
 
         Iterable<Message> messages = messageRepo.findAll();
 
