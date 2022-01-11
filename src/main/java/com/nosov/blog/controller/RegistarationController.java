@@ -1,21 +1,21 @@
 package com.nosov.blog.controller;
 
-import com.nosov.blog.domain.Role;
 import com.nosov.blog.domain.User;
-import com.nosov.blog.repository.UserRepo;
+import com.nosov.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
 public class RegistarationController {
 
     @Autowired
-    UserRepo userRepo;
+    UserService userService;
 
     @GetMapping("/registration")
     private String registration() {
@@ -24,15 +24,23 @@ public class RegistarationController {
 
     @PostMapping("/registration")
     private String addUser(User user, Map<String, Object> model) {
-        User byUsername = userRepo.findByUsername(user.getUsername());
-        if (byUsername != null) {
+        if (!userService.addUser(user)) {
             model.put("message", "User alredi exist");
             return "registration";
         }
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
-
         return "redirect:/login";
+    }
+
+    @GetMapping("/activate/{code}")
+    private String activateUser(Model model, @PathVariable String code) {
+        boolean isActivated = userService.activateUser(code);
+
+        if (isActivated) {
+            model.addAttribute("message", "User successfully activated");
+        } else {
+            model.addAttribute("message", "Activation code is not found!");
+        }
+
+        return "login";
     }
 }
