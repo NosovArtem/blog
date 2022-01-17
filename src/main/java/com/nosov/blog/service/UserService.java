@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
             return false;
         }
 
-        user.setActive(true);
+        user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
 
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
             String message = String.format(
                     "Hello %s! \n " +
                             "Wellcome to Blog. " +
-                            "Please, visit next link: %s!/activate/%s!",
+                            "Please, visit next link: %s/activate/%s",
                     user.getUsername(),
                     blogUrl,
                     user.getActivationCode()
@@ -61,11 +61,11 @@ public class UserService implements UserDetailsService {
 
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
-
         if (user == null) {
             return false;
         }
-
+        user.setActive(true);
+        userRepo.save(user);
         return true;
     }
 }
