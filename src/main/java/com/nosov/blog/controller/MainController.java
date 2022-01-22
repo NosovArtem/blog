@@ -53,8 +53,9 @@ public class MainController {
     ) throws IOException {
 
         if (bindingResult.hasErrors()) {
-            ControllerUtils.setErrorsToModel(bindingResult, model);
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.addAttribute("message", message);
+            model.mergeAttributes(errors);
         } else {
             if (Objects.nonNull(file) && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
                 File uploadDir = new File(uploadPath);

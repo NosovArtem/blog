@@ -18,16 +18,5 @@ public class ControllerUtils {
         return errorsMap;
     }
 
-    static void setErrorsToModel(Map<String, String> errorsMap, Model model){
-        for (String key : errorsMap.keySet()) {
-            model.addAttribute(key, errorsMap.get(key));
-        }
-    }
 
-    static void setErrorsToModel(BindingResult bindingResult, Model model){
-        Map<String, String> errorsMap = getErrors(bindingResult);
-        for (String key : errorsMap.keySet()) {
-            model.addAttribute(key, errorsMap.get(key));
-        }
-    }
 }
