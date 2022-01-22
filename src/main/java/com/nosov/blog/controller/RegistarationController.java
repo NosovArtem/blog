@@ -5,11 +5,12 @@ import com.nosov.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 @Controller
 public class RegistarationController {
@@ -23,9 +24,16 @@ public class RegistarationController {
     }
 
     @PostMapping("/registration")
-    private String addUser(User user, Map<String, Object> model) {
+    private String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
+            model.addAttribute("passwordError", "Password are different!");
+        }
+        if (bindingResult.hasErrors()) {
+            ControllerUtils.setErrorsToModel(bindingResult, model);
+            return "registration";
+        }
         if (!userService.addUser(user)) {
-            model.put("message", "User alredi exist");
+            model.addAttribute("usernameError", "User alredi exist");
             return "registration";
         }
         return "redirect:/login";
