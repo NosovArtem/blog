@@ -2,28 +2,28 @@ package com.nosov.blog.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CaptcaResponseDto {
-    private boolean success;
-    @JsonAlias("error-codes")
-    private Set<String> errorCodes;
 
-    public boolean isSuccess() {
-        return success;
-    }
+  private boolean success;
+  @JsonAlias("error-codes")
+  private Set<String> errorCodes;
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+  public boolean isSuccess() {
+    return success;
+  }
 
-    public Set<String> getErrorCodes() {
-        return errorCodes;
-    }
+  public void setSuccess(boolean success) {
+    this.success = success;
+  }
 
-    public void setErrorCodes(Set<String> errorCodes) {
-        this.errorCodes = errorCodes;
-    }
+  public Set<String> getErrorCodes() {
+    return errorCodes;
+  }
+
+  public void setErrorCodes(Set<String> errorCodes) {
+    this.errorCodes = errorCodes;
+  }
 }

@@ -1,118 +1,128 @@
 package com.nosov.blog.domain;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @NotBlank(message = "Username can't be empty")
-    private String username;
-    @NotBlank(message = "Password can't be empty")
-    private String password;
-    private boolean active;
-    @Email(message = "Email is not correct")
-    @NotBlank(message = "Email can't be empty")
-    private String email;
-    private String activationCode;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  @NotBlank(message = "Username can't be empty")
+  private String username;
+  @NotBlank(message = "Password can't be empty")
+  private String password;
+  private boolean active;
+  @Email(message = "Email is not correct")
+  @NotBlank(message = "Email can't be empty")
+  private String email;
+  private String activationCode;
 
-    public boolean isAdmin() {
-        return roles.contains(Role.ADMIN);
-    }
+  @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+  @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+  @Enumerated(EnumType.STRING)
+  private Set<Role> roles;
 
-    public Long getId() {
-        return id;
-    }
+  public boolean isAdmin() {
+    return roles.contains(Role.ADMIN);
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return isActive();
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  @Override
+  public boolean isEnabled() {
+    return isActive();
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return getRoles();
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public boolean isActive() {
-        return active;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+  public boolean isActive() {
+    return active;
+  }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
+  public void setActive(boolean active) {
+    this.active = active;
+  }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+  public Set<Role> getRoles() {
+    return roles;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public String getActivationCode() {
-        return activationCode;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
+  public String getActivationCode() {
+    return activationCode;
+  }
+
+  public void setActivationCode(String activationCode) {
+    this.activationCode = activationCode;
+  }
 
 }
