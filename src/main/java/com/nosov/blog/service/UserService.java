@@ -31,8 +31,8 @@ public class UserService implements UserDetailsService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @Value("${blog.url}")
-  private String blogUrl;
+  @Value("${hostname}")
+  private String hostname;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -68,9 +68,9 @@ public class UserService implements UserDetailsService {
     String message = String.format(
         "Hello %s! \n "
             + "Wellcome to Blog. "
-            + "Please, visit next link: %s/activate/%s",
+            + "Please, visit next link: http://%s/activate/%s",
         user.getUsername(),
-        blogUrl,
+        hostname,
         user.getActivationCode()
     );
 

@@ -55,7 +55,7 @@
         <div class="card my-3" style="width: 18rem;">
           <div>
               <#if message.filename??>
-                <img class="card-img-top" src="/img/${message.filename}">
+                <img class="card-img-top" src="${message.filename}">
               </#if>
           </div>
           <div class="m-2">
