@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface MessageRepo extends CrudRepository<Message, Integer> {
 
   List<Message> findByTag(String tag);
+  List<Message> findById(long id);
 }
